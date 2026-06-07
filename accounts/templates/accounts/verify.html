@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/verify.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="verify-card">
+    <h2>تأیید کد</h2>
+    <p>کد ارسال شده به شماره تلفن شما را وارد کنید</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="register" class="btn-primary">
+    </form>
+
+    <div class="timer-box">
+        ⏱️ زمان باقی‌مانده: <span id="countdown">02:00</span>
+    </div>
+
+    <button id="resend-btn" class="btn-secondary" disabled>🔄 ارسال مجدد کد</button>
+</div>
+
+<script>
+    const resendUrl = "{% url 'accounts:resend_code' %}";
+</script>
+<script src="{% static 'accounts/js/verify.js' %}"></script>
+{% endblock %}
