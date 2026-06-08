@@ -1,4 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/index.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h3>This is index page...</h3>
+<div class="container">
+    <h1>محصولات فروشگاه</h1>
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+            <div class="product-info">
+                <div class="product-name">
+                    <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                </div>
+                <div class="product-price">{{ product.price }} تومان</div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-products">هیچ محصولی یافت نشد.</div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

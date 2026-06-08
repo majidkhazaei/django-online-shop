@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/productdetail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="product-detail">
+        <div class="product-detail-image">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+        <div class="product-detail-info">
+            <h2>{{ product.name }}</h2>
+            <div class="product-meta">📅 {{ product.created|date:"Y/m/d" }}</div>
+            <div class="product-price">{{ product.price }} تومان</div>
+            <div class="product-description">
+                <p>{{ product.description|linebreaks }}</p>
+            </div>
+            <button class="btn-add-to-cart">➕ افزودن به سبد خرید</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
