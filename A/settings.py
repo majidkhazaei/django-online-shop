@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
 from pathlib import Path
 
 
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +127,21 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# ARVAN Cloud Object Storages
+from decouple import config
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "access_key": config('ARVAN_ACCESS_KEY'),
+            "secret_key": config('ARVAN_SECRET_KEY'),
+            "endpoint_url": config('ARVAN_ENDPOINT'),
+            "bucket_name": config('ARVAN_BUCKET'),
+            "file_overwrite": False,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+    },
+}
