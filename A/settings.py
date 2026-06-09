@@ -130,14 +130,21 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # ARVAN Cloud Object Storages
 from decouple import config
+
+AWS_SERVICE_NAME = 's3'
+AWS_ACCESS_KEY_ID = config('ARVAN_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = config('ARVAN_SECRET_KEY')
+AWS_S3_ENDPOINT_URL = config('ARVAN_ENDPOINT')
+AWS_BUCKET_NAME = config('ARVAN_BUCKET')
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            "access_key": config('ARVAN_ACCESS_KEY'),
-            "secret_key": config('ARVAN_SECRET_KEY'),
-            "endpoint_url": config('ARVAN_ENDPOINT'),
-            "bucket_name": config('ARVAN_BUCKET'),
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "endpoint_url": AWS_S3_ENDPOINT_URL,
+            "bucket_name": AWS_BUCKET_NAME,
             "file_overwrite": False,
         },
     },

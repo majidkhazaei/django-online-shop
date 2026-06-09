@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'home/css/bucket.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bucket-container">
+    <div class="bucket-header">
+        <h2>فایل‌های من</h2>
+        <span class="bucket-count">{{ objects|length }} فایل</span>
+    </div>
+
+    {% if objects %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>نام فایل</th>
+                <th>اندازه</th>
+                <th>دانلود</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in objects %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ obj.Key }}</td>
+                <td>{{ obj.Size|filesizeformat }}</td>
+                <td>
+                    <a href="#" class="action-link download-link">📥 دانلود</a>
+                </td>
+                <td>
+                    <a href="#" class="action-link delete-link">🗑️ حذف</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-bucket">
+        📁 هیچ فایلی در باکت وجود ندارد.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
