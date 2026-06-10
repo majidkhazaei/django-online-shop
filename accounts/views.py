@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.views import View
-from .forms import UserRegistrationForm, VerifyCodeForm
+from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 import random
 from django.http import JsonResponse
 from .models import OtpCode, User
@@ -85,3 +87,31 @@ class ResendVerificationCodeView(View):
         )
         tasks.send_otp_code.delay(phone, new_code)
         return JsonResponse({'status': 'ok', 'message': 'کد جدید ارسال شد'})
+
+
+class UserLogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.success(request,'you logged out','success')
+        return redirect('home:home')
+
+
+class UserLoginView(View):
+    form_class = UserLoginForm
+    template_name = 'accounts/login.html'
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, phone_number=cd['phone'], password=cd['password'])
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'you logged in', 'success')
+                return redirect('home:home')
+            messages.error(request, 'invalid credentials', 'danger')
+        return render(request, self.template_name, {'form': form})

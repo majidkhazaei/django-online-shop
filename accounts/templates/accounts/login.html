@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="register-card">
+    <h2>ورود</h2>
+    <p>لطفاً اطلاعات خود را وارد کنید</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="login" class="btn-register">
+    </form>
+</div>
+
+<script src="{% static 'accounts/js/register.js' %}"></script>
+{% endblock %}
