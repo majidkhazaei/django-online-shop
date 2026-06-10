@@ -3,6 +3,7 @@ from django.views import View
 from products.models import Product
 from . import tasks
 from django.contrib import messages
+from utils import IsAdminMixin
 
 
 class HomeView(View):
@@ -17,7 +18,7 @@ class ProductDetailView(View):
         return render(request, 'home/product_detail.html', {'product': product})
 
 
-class BucketHomeView(View):
+class BucketHomeView(IsAdminMixin,View):
     template_name = 'home/bucket.html'
 
     def get(self, request):
@@ -25,14 +26,14 @@ class BucketHomeView(View):
         return render(request, self.template_name, {'objects': objects})
 
 
-class DeleteBucketObjectView(View):
+class DeleteBucketObjectView(IsAdminMixin, View):
     def get(self, request, key):
         tasks.delete_object_task.delay(key)
         messages.success(request, 'Bucket Object will be Deleted Soon', 'info')
         return redirect('home:bucket')
 
 
-class DownloadBucketObjectView(View):
+class DownloadBucketObjectView(IsAdminMixin, View):
     def get(self, request, key):
         tasks.download_object_task.delay(key)
         messages.success(request, 'Bucket Object will be Downloaded Soon', 'info')
