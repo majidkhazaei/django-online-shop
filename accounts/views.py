@@ -4,10 +4,10 @@ from django.views import View
 from .forms import UserRegistrationForm, VerifyCodeForm
 import random
 from django.http import JsonResponse
-from utils import send_otp_code
 from .models import OtpCode, User
 from django.utils import timezone
 from datetime import timedelta
+from . import tasks
 
 
 class UserRegisterView(View):
@@ -22,7 +22,7 @@ class UserRegisterView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             random_code = random.randint(100000,999999)
-            send_otp_code(phone_number=form.cleaned_data['phone'], code=random_code)
+            tasks.send_otp_code.delay(form.cleaned_data['phone'], random_code)
             OtpCode.objects.create(phone_number=form.cleaned_data['phone'], code=random_code)
             request.session["user_registration_info"] = {
                 'phone_number': form.cleaned_data['phone'],
@@ -76,11 +76,12 @@ class ResendVerificationCodeView(View):
 
         OtpCode.objects.filter(phone_number=phone).delete()
 
-        new_code = str(random.randint(100000, 999999))
+        new_code = random.randint(100000, 999999)
 
         OtpCode.objects.create(
             phone_number=phone,
             code=new_code,
             created=timezone.now()
         )
+        tasks.send_otp_code.delay(phone, new_code)
         return JsonResponse({'status': 'ok', 'message': 'کد جدید ارسال شد'})
