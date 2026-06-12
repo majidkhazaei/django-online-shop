@@ -1,10 +1,22 @@
-/* static/home/css/index.css */
+/* ===================== index.css ===================== */
+/* بخش دسته‌بندی‌ها و منوی کشویی */
 
-/* استایل بخش دسته‌بندی */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1.8rem;
+    color: #0f172a;
+}
+
 .categories-section {
-    margin: 2rem 0 1rem;
-    padding-bottom: 0.5rem;
+    margin: 1.5rem 0 0.5rem;
     border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.75rem;
 }
 
 .categories-title {
@@ -17,31 +29,98 @@
 .categories-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
 }
 
-.btn-category {
+.custom-dropdown {
+    position: relative;
     display: inline-block;
-    padding: 0.5rem 1.2rem;
+}
+
+.dropdown-btn-group {
+    display: flex;
+    align-items: center;
     background: #f1f5f9;
-    color: #1e293b;
     border-radius: 2rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.dropdown-btn-group:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.btn-category-main {
+    padding: 0.5rem 1rem;
+    color: #1e293b;
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 500;
+    border-radius: 2rem 0 0 2rem;
+    transition: all 0.2s;
+}
+
+.dropdown-btn-group:hover .btn-category-main {
+    color: white;
+}
+
+.dropdown-arrow {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.7rem;
+    color: #1e293b;
+    border-right: 1px solid #cbd5e1;
+    transition: all 0.2s;
+}
+
+.dropdown-btn-group:hover .dropdown-arrow {
+    color: white;
+    border-right-color: #3b82f6;
+}
+
+.dropdown-menu-custom {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: white;
+    min-width: 180px;
+    border-radius: 1rem;
+    box-shadow: 0 12px 25px -8px rgba(0,0,0,0.15);
+    padding: 0.5rem 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
     transition: all 0.2s ease;
+    z-index: 100;
     border: 1px solid #e2e8f0;
 }
 
-.btn-category:hover {
-    background: #3b82f6;
-    color: white;
-    border-color: #3b82f6;
-    transform: translateY(-2px);
+.custom-dropdown:hover .dropdown-menu-custom {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
-/* استایل شبکه محصولات */
+.dropdown-menu-custom li a {
+    display: block;
+    padding: 0.6rem 1rem;
+    color: #1e293b;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    text-align: right;
+}
+
+.dropdown-menu-custom li a:hover {
+    background: #eff6ff;
+    color: #3b82f6;
+    padding-right: 1.2rem;
+}
+
+/* محصولات (شبکه‌ای) */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -53,20 +132,19 @@
     background: #ffffff;
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.02);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
 }
 
 .product-image {
     width: 100%;
     height: 220px;
     object-fit: cover;
-    border-bottom: 1px solid #f1f5f9;
 }
 
 .product-info {
@@ -82,7 +160,6 @@
 .product-name a {
     color: #1e293b;
     text-decoration: none;
-    transition: color 0.2s;
 }
 
 .product-name a:hover {
@@ -93,14 +170,12 @@
     color: #3b82f6;
     font-weight: 700;
     font-size: 1.2rem;
-    direction: ltr;
     display: inline-block;
     background: #eff6ff;
     padding: 0.2rem 0.8rem;
     border-radius: 2rem;
 }
 
-/* پیام عدم وجود محصول */
 .no-products {
     text-align: center;
     padding: 3rem;
@@ -109,20 +184,33 @@
     color: #475569;
 }
 
-/* واکنش‌گرایی */
+/* ===== واکنش‌گرایی موبایل ===== */
 @media (max-width: 768px) {
-    .products-grid {
-        gap: 1rem;
-        padding: 1rem;
-    }
-    .product-image {
-        height: 180px;
-    }
     .categories-wrapper {
-        gap: 0.5rem;
+        flex-direction: column;
+        align-items: stretch;
     }
-    .btn-category {
-        padding: 0.4rem 1rem;
-        font-size: 0.8rem;
+    .custom-dropdown {
+        width: 100%;
+    }
+    .dropdown-btn-group {
+        justify-content: space-between;
+    }
+    .btn-category-main {
+        flex: 1;
+        text-align: center;
+    }
+    /* در موبایل منو با JS باز می‌شود، نه هاور */
+    .dropdown-menu-custom {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        margin-top: 0.5rem;
+        display: none;
+    }
+    .custom-dropdown.open .dropdown-menu-custom {
+        display: block;
     }
 }
