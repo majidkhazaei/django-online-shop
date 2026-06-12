@@ -8,6 +8,20 @@
 {% block content %}
 <div class="container">
     <h1>محصولات فروشگاه</h1>
+
+    {% if categories %}
+    <div class="categories-section">
+        <div class="categories-title">دسته‌بندی‌ها</div>
+        <div class="categories-wrapper">
+            {% for category in categories %}
+            <a href="{{ category.get_absolute_url }}" class="btn-category">
+                {{ category.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <div class="products-grid">
         {% for product in products %}
         <div class="product-card">
