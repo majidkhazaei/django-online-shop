@@ -2,8 +2,32 @@
 {% load static %}
 
 {% block extra_head %}
+<link rel="stylesheet" href="{% static 'orders/css/cart.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h3>This page will show a cart soon</h3>
+<table class="cart-simple-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Unit price</th>
+      <th>Total price</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in cart %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ item.product }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.price }}</td>
+      <td>{{ item.total_price }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<script src="{% static 'orders/js/cart.js' %}"></script>
 {% endblock %}
