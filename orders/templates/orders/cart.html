@@ -27,6 +27,11 @@
       <td>{{ item.total_price }}</td>
     </tr>
   {% endfor %}
+  <tr>
+    <td colspan="4">Total</td>
+    <td colspan="1">{{ cart.get_total_price }}</td>
+  </tr>
+
   </tbody>
 </table>
 <script src="{% static 'orders/js/cart.js' %}"></script>
